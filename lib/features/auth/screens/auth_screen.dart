@@ -1,6 +1,7 @@
 import 'package:ecommproject/constants/global_variables.dart';
 import 'package:ecommproject/features/auth/widgets/custom_button.dart';
 import 'package:ecommproject/features/auth/widgets/custom_text_field.dart';
+import 'package:ecommproject/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
 enum Auth { signin, signup }
@@ -19,6 +20,15 @@ class _AuthScreenState extends State<AuthScreen> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  AuthService authService = AuthService();
+
+  void signUpUser() {
+    authService.signUpUser(
+        name: _nameController.text,
+        email: _emailController.text,
+        password: _passwordController.text,
+        context: context);
+  }
 
   final _signInFormKey = GlobalKey<FormState>();
   final _signUpFormKey = GlobalKey<FormState>();
@@ -56,7 +66,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   padding: const EdgeInsets.all(8),
                   color: GlobalVariables.backgroundColor,
                   child: Form(
-                    key: _signInFormKey,
+                    key: _signUpFormKey,
                     child: Column(
                       children: [
                         CustomTextField(
@@ -80,7 +90,13 @@ class _AuthScreenState extends State<AuthScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        CustomButton(onTap: () {}, text: 'Sign Up')
+                        CustomButton(
+                            onTap: () {
+                              if (_signUpFormKey.currentState!.validate()) {
+                                signUpUser();
+                              }
+                            },
+                            text: 'Sign Up')
                       ],
                     ),
                   ),
@@ -106,7 +122,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   color: GlobalVariables.backgroundColor,
                   padding: const EdgeInsets.all(8),
                   child: Form(
-                    key: _signUpFormKey,
+                    key: _signInFormKey,
                     child: Column(
                       children: [
                         CustomTextField(
