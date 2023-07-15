@@ -38,7 +38,7 @@ class User {
       password: map['password'] as String,
       address: map['address'] as String,
       type: map['type'] as String,
-      id: map['id'] as String,
+      id: map['_id'] as String,
       token: map['token'] as String,
     );
   }

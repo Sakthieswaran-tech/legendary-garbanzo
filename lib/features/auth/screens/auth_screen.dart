@@ -30,6 +30,13 @@ class _AuthScreenState extends State<AuthScreen> {
         context: context);
   }
 
+  void signInUser() {
+    authService.signInUser(
+        context: context,
+        email: _emailController.text,
+        password: _passwordController.text);
+  }
+
   final _signInFormKey = GlobalKey<FormState>();
   final _signUpFormKey = GlobalKey<FormState>();
   @override
@@ -139,7 +146,13 @@ class _AuthScreenState extends State<AuthScreen> {
                         const SizedBox(
                           height: 10,
                         ),
-                        CustomButton(onTap: () {}, text: 'Sign In')
+                        CustomButton(
+                            onTap: () {
+                              if (_signInFormKey.currentState!.validate()) {
+                                signInUser();
+                              }
+                            },
+                            text: 'Sign In')
                       ],
                     ),
                   ),
