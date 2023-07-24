@@ -33,7 +33,7 @@ const signInUser=async(req,res)=>{
         }
         const validUser = await bcrypt.compare(password,user.password);
         if(validUser){
-            const token=jwt.sign({user},'secret', { expiresIn: '10h' })
+            const token=jwt.sign({id:user._id},'secret', { expiresIn: '10h' })
             return res.status(200).json({...user._doc,token});
         }else{
             return res.status(401).json({message:"Invalid password"});
@@ -44,7 +44,37 @@ const signInUser=async(req,res)=>{
     }
 }
 
+const validateToken=async(req,res)=>{
+    try{
+        const token=req.headers.authorization.split(" ")[1];
+        const verified=jwt.verify(token,'secret');
+        if(!verified){
+            return res.status(401).json({valid:false});
+        }
+        const user = await User.findById(verified.id);
+        if(!user){
+            return res.status(401).json({valid:false});
+        }
+        return res.status(200).json({valid:true});
+    }catch(error){
+        console.log(error);
+        return res.status(401).json({valid:false});
+    }
+}
+
+const getUserData=async(req,res)=>{
+    try{
+        const user = await User.findById({_id:req.userID});
+        return res.status(200).json({...user._doc,token:req.token});
+    }catch(error){
+        console.log(error);
+        return res.status(500).json({error:error.message});
+    }
+}
+
 module.exports={
     createUser,
-    signInUser
+    signInUser,
+    validateToken,
+    getUserData
 }

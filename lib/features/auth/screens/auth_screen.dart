@@ -1,6 +1,6 @@
 import 'package:ecommproject/constants/global_variables.dart';
-import 'package:ecommproject/features/auth/widgets/custom_button.dart';
-import 'package:ecommproject/features/auth/widgets/custom_text_field.dart';
+import 'package:ecommproject/widgets/custom_button.dart';
+import 'package:ecommproject/widgets/custom_text_field.dart';
 import 'package:ecommproject/features/auth/services/auth_service.dart';
 import 'package:flutter/material.dart';
 
