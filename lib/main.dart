@@ -1,7 +1,7 @@
 import 'package:ecommproject/constants/global_variables.dart';
+import 'package:ecommproject/features/admin/screens/admin_screen.dart';
 import 'package:ecommproject/features/auth/screens/auth_screen.dart';
 import 'package:ecommproject/features/auth/services/auth_service.dart';
-// import 'package:ecommproject/features/home/screen/home_screen.dart';
 import 'package:ecommproject/providers/user_provider.dart';
 import 'package:ecommproject/routes.dart';
 import 'package:ecommproject/widgets/bottom_bar.dart';
@@ -46,7 +46,9 @@ class _MyAppState extends State<MyApp> {
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (settings) => generateRoutes(settings),
         home: Provider.of<UserProvider>(context).user.token.isNotEmpty
-            ? const BottomBar()
+            ? Provider.of<UserProvider>(context).user.type == 'user'
+                ? const BottomBar()
+                : const AdminScreen()
             : const AuthScreen());
   }
 }
